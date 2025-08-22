@@ -7,7 +7,7 @@ class Car2 {
     year: number;
     maxSpeed: number;
     engineVolume: number;
-    driver?: DriverType;
+    driver?: Driver;
 
     constructor(model: string, producer: string, year: number, maxSpeed: number, engineVolume: number) {
         this.model = model;
@@ -31,10 +31,15 @@ class Car2 {
     changeYear(year: number): void {
         if (year > 1815) this.year = year;
     };
-    addDriver(driver: DriverType) {
-        if (driver) this.driver = driver;
+    addDriver(driver: Driver) {
+       this.driver = driver;
     };
 }
+
+type Driver = {
+    name: string;
+    gender: string;
+};
 
 let car2 = new Car2('BMW', 'BMW', 2018, 250, 1.6);
 console.log(car2);
@@ -43,5 +48,5 @@ car2.drive();
 car2.info();
 car2.increaseMaxSpeed(100);
 car2.changeYear(2019);
-car2.addDriver({name: 'Ivan', age: 25, gender: 'male'});
+car2.addDriver({name: 'Ivan', gender: 'male'});
 console.log(car2);
