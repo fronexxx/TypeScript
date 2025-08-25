@@ -1,26 +1,22 @@
 // Task-2
-type MyObjectType = {
-    id: number,
-    name: string,
-    greeting: () => void,
-    foo: () => void
-};
 
-type FunctionsType = { functionClone: () => void, key: string};
+type FunctionCloneObject = { functionClone: Function, key: string };
 
-function cloner(obj: MyObjectType): MyObjectType {
+function cloner<T>(obj: T): T {
     if (obj) {
-        let functions: FunctionsType[] = [];
+        let functions: Array<FunctionCloneObject> = [];
+
         for (const key in obj) {
             if (typeof obj[key] === 'function') {
-                const functionClone = obj[key].bind({});
+                // const functionClone = obj[key].bind({});
+                const functionClone = (obj[key] as Function).bind({});
                 functions.push({functionClone, key});
             }
         }
         console.log(functions);
-        const cloneObj = JSON.parse(JSON.stringify(obj));
+        const cloneObj: T = JSON.parse(JSON.stringify(obj));
         for (const func of functions) {
-            cloneObj[func.key] = func.functionClone;
+            (cloneObj as any)[func.key] = func.functionClone;
         }
         console.log(cloneObj);
         return cloneObj;
@@ -30,3 +26,4 @@ function cloner(obj: MyObjectType): MyObjectType {
 
 let clone = cloner({id: 1, name: 'kokos', greeting() {console.log('hello')}, foo() {console.log('foo')}});
 clone.greeting();
+
